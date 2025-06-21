@@ -12,6 +12,25 @@ body {
   font-family: 'myfont', sans-serif;
 }
 
+.nav-link {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-bar {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: white;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: none;
+  pointer-events: none;
+}
+
+
 /* ------------------------------
     PAGE 2 SECTION
 ------------------------------ */

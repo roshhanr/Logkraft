@@ -143,3 +143,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+// GSAP hover underline effect for navbar links
+document.addEventListener("DOMContentLoaded", () => {
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  navLinks.forEach((link) => {
+    const underline = link.querySelector(".underline-bar");
+    if (!underline) return;
+
+    link.addEventListener("mouseenter", () => {
+      gsap.to(underline, {
+        scaleX: 1,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+    });
+
+    link.addEventListener("mouseleave", () => {
+      gsap.to(underline, {
+        scaleX: 0,
+        duration: 0.4,
+        ease: "power2.in"
+      });
+    });
+  });
+});
