@@ -101,7 +101,7 @@ body {
 }
 
 .image {
-  background-color: cornflowerblue;
+  /* background-color: cornflowerblue; */
   min-height: 35vh;
   width: 17vw;
   margin: 30px 40px 0;
