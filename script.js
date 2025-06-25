@@ -27,6 +27,27 @@ ScrollTrigger.addEventListener("refresh", () => scroll.update());
 ScrollTrigger.refresh();
 
 
+// ========== APP PREVIEW IMAGE TILT ==========
+const previewWrapper = document.querySelector(".tilt-wrapper");
+const previewImg = previewWrapper?.querySelector("img");
+
+if (previewWrapper && previewImg) {
+  previewWrapper.addEventListener("mousemove", (e) => {
+    const rect = previewWrapper.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = ((y / rect.height) - 0.5) * 5;
+    const rotateY = ((x / rect.width) - 0.5) * -5;
+
+    previewImg.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(0.985, 0.985, 0.985)`;
+  });
+
+  previewWrapper.addEventListener("mouseleave", () => {
+    previewImg.style.transform = `perspective(700px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+  });
+}
+
+
 // ========== DOM READY ==========
 document.addEventListener("DOMContentLoaded", () => {
   const animateScroll = (target, options) => {
@@ -41,13 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // Hero
+  // Hero Section
   animateScroll(".hero-title", { props: { y: 40, opacity: 0, duration: 1, ease: "power3.out" } });
   animateScroll(".hero-sub", { props: { y: 30, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power2.out" }, start: "top 95%" });
   animateScroll(".app-preview-img", { props: { y: 20, opacity: 0, duration: 1, ease: "power2.out" } });
 
-  // Page 2
+  // Page 2 Headline
   animateScroll(".headline-section", { props: { y: 80, opacity: 0, duration: 1.2, ease: "power3.out" }, start: "top 85%" });
+
   gsap.to(".headline-text", {
     scrollTrigger: {
       trigger: ".headline-section",
@@ -58,12 +80,14 @@ document.addEventListener("DOMContentLoaded", () => {
     ease: "power1.out"
   });
 
-  // Page 3
+  // Page 3 Header
   animateScroll(".page3-header", { props: { y: 60, opacity: 0, duration: 1, ease: "power3.out" }, start: "top 85%" });
 
-  // Footer
+  // Footer Content
   animateScroll(".footer-container", { props: { y: 80, opacity: 0, duration: 1.2, ease: "power3.out" }, start: "top 85%" });
+  animateScroll(".footer-bottom", { props: { opacity: 0, y: 30, duration: 0.8, ease: "power2.out" }, start: "top 95%" });
 
+  // Footer Links Animate In
   gsap.utils.toArray(".footer-links a").forEach((link, i) => {
     gsap.from(link, {
       scrollTrigger: {
@@ -79,9 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  animateScroll(".footer-bottom", { props: { opacity: 0, y: 30, duration: 0.8, ease: "power2.out" }, start: "top 95%" });
-
-  // Hover effect for gridbox
+  // Gridbox hover zoom effect
   document.querySelectorAll(".gridbox").forEach((box) => {
     box.addEventListener("mouseenter", () => {
       gsap.to(box, {
@@ -99,25 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Tilt effect on preview image
-  const previewWrapper = document.querySelector(".tilt-wrapper");
-  const previewImg = previewWrapper?.querySelector("img");
-  if (previewWrapper && previewImg) {
-    previewWrapper.addEventListener("mousemove", (e) => {
-      const rect = previewWrapper.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const rotateX = ((y / rect.height) - 0.5) * 5;
-      const rotateY = ((x / rect.width) - 0.5) * -5;
-      previewImg.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(0.985, 0.985, 0.985)`;
-    });
-
-    previewWrapper.addEventListener("mouseleave", () => {
-      previewImg.style.transform = `perspective(700px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-    });
-  }
-
-  // ========== Marquee Setup (Single clean instance) ==========
+  // Marquee Scroll Effect
   document.querySelectorAll(".marquee-track").forEach((track) => {
     const isReverse = track.classList.contains("reverse");
     const boxes = Array.from(track.children);
@@ -142,12 +146,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-});
 
-// GSAP hover underline effect for navbar links
-document.addEventListener("DOMContentLoaded", () => {
+  // Navbar underline hover animation
   const navLinks = document.querySelectorAll(".nav-link");
-
   navLinks.forEach((link) => {
     const underline = link.querySelector(".underline-bar");
     if (!underline) return;
