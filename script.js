@@ -3,10 +3,17 @@ gsap.registerPlugin(ScrollTrigger);
 
 const scroll = new LocomotiveScroll({
   el: document.querySelector("#main"),
-  smooth: true
+  smooth: true,
+  lerp: 0.075, // Slightly increased lerp for smoother deceleration
+  multiplier: 1, // Adjusted multiplier
+  getDirection: true, // Get scroll direction
+  getSpeed: true, // Get scroll speed
 });
 
-scroll.on("scroll", ScrollTrigger.update);
+scroll.on("scroll", (instance) => {
+  document.documentElement.classList.add("has-scroll-smooth");
+  ScrollTrigger.update(instance);
+});
 
 ScrollTrigger.scrollerProxy("#main", {
   scrollTop(value) {
@@ -58,34 +65,50 @@ document.addEventListener("DOMContentLoaded", () => {
         start: options.start || "top 90%",
         toggleActions: "play none none none"
       },
-      ...options.props
+      ...options.props,
+      force3D: true // Add force3D here
     });
   };
 
   // Hero Section
-  animateScroll(".hero-title", { props: { y: 40, opacity: 0, duration: 1, ease: "power3.out" } });
-  animateScroll(".hero-sub", { props: { y: 30, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power2.out" }, start: "top 95%" });
-  animateScroll(".app-preview-img", { props: { y: 20, opacity: 0, duration: 1, ease: "power2.out" } });
+  animateScroll(".hero-title", { props: { y: 50, opacity: 0, duration: 1.2, ease: "power4.out" } });
+  animateScroll(".hero-sub", { props: { y: 40, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out" }, start: "top 95%" });
+  animateScroll(".app-preview-img", { props: { y: 30, opacity: 0, duration: 1.2, ease: "power3.out" } });
 
   // Page 2 Headline
-  animateScroll(".headline-section", { props: { y: 80, opacity: 0, duration: 1.2, ease: "power3.out" }, start: "top 85%" });
+  animateScroll(".headline-section", { props: { y: 100, opacity: 0, duration: 1.5, ease: "power4.out" }, start: "top 85%" });
 
   gsap.to(".headline-text", {
     scrollTrigger: {
       trigger: ".headline-section",
       scroller: "#main",
-      scrub: 1
+      scrub: 1.5
     },
-    y: -20,
-    ease: "power1.out"
+    y: -30,
+    ease: "power1.out",
+    force3D: true
   });
 
   // Page 3 Header
-  animateScroll(".page3-header", { props: { y: 60, opacity: 0, duration: 1, ease: "power3.out" }, start: "top 85%" });
+  animateScroll(".page3-header", { props: { y: 80, opacity: 0, duration: 1.2, ease: "power4.out" }, start: "top 85%" });
 
   // Footer Content
-  animateScroll(".footer-container", { props: { y: 80, opacity: 0, duration: 1.2, ease: "power3.out" }, start: "top 85%" });
-  animateScroll(".footer-bottom", { props: { opacity: 0, y: 30, duration: 0.8, ease: "power2.out" }, start: "top 95%" });
+  animateScroll(".footer-container", { props: { y: 100, opacity: 0, duration: 1.5, ease: "power4.out" }, start: "top 95%" });
+  animateScroll(".footer-bottom", { props: { opacity: 0, y: 40, duration: 1, ease: "power3.out" }, start: "top 98%" });
+
+  // Footer Grid Parallax
+  gsap.to(".footer-grid", {
+    scrollTrigger: {
+        trigger: ".footer",
+        scroller: "#main",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5
+    },
+    y: -120, // Adjust this value for more or less parallax
+    ease: "none",
+    force3D: true
+  });
 
   // Footer Links Animate In
   gsap.utils.toArray(".footer-links a").forEach((link, i) => {
@@ -96,10 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
         start: "top 90%"
       },
       opacity: 0,
-      y: 20,
-      delay: i * 0.05,
-      duration: 0.6,
-      ease: "power2.out"
+      y: 30,
+      delay: i * 0.1,
+      duration: 0.8,
+      ease: "power3.out"
     });
   });
 
@@ -107,16 +130,18 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".gridbox").forEach((box) => {
     box.addEventListener("mouseenter", () => {
       gsap.to(box, {
-        scale: 1.05,
-        duration: 0.1,
-        ease: "power3.out"
+        scale: 1.03,
+        duration: 0.2,
+        ease: "power2.out",
+        force3D: true
       });
     });
     box.addEventListener("mouseleave", () => {
       gsap.to(box, {
         scale: 1,
-        duration: 0.2,
-        ease: "power3.inOut"
+        duration: 0.3,
+        ease: "power2.inOut",
+        force3D: true
       });
     });
   });
@@ -139,11 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.to(track, {
       x: isReverse ? totalWidth : -totalWidth,
       ease: "none",
-      duration: 30,
+      duration: 40, // Slower and smoother
       repeat: -1,
       modifiers: {
         x: gsap.utils.unitize(x => parseFloat(x) % totalWidth)
-      }
+      },
+      force3D: true
     });
   });
 
@@ -156,16 +182,18 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("mouseenter", () => {
       gsap.to(underline, {
         scaleX: 1,
-        duration: 0.4,
-        ease: "power2.out"
+        duration: 0.5,
+        ease: "power3.out",
+        force3D: true
       });
     });
 
     link.addEventListener("mouseleave", () => {
       gsap.to(underline, {
         scaleX: 0,
-        duration: 0.4,
-        ease: "power2.in"
+        duration: 0.5,
+        ease: "power3.in",
+        force3D: true
       });
     });
   });

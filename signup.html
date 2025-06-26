@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
+    <title>Sign Up</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -81,7 +81,7 @@
 
         .links {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 20px;
         }
 
@@ -98,25 +98,27 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome Back!</h1>
-        <p>Sign in to continue to your account.</p>
-        <form id="signInForm">
+        <h1>Create an Account</h1>
+        <p>Join us and start your journey.</p>
+        <form id="signUpForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
             <div class="input-group">
                 <input type="email" id="email" placeholder="Email Address" required>
             </div>
             <div class="input-group">
                 <input type="password" id="password" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn">Sign In</button>
+            <button type="submit" class="btn">Sign Up</button>
         </form>
         <div class="links">
-            <a href="#">Forgot Password?</a>
-            <a href="#">Sign Up</a>
+            <a href="signin.html">Already have an account? Sign In</a>
         </div>
     </div>
 
     <script>
-        document.getElementById('signInForm').addEventListener('submit', function(event) {
+        document.getElementById('signUpForm').addEventListener('submit', function(event) {
             event.preventDefault();
             // You can add form validation logic here
 

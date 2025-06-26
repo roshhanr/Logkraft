@@ -1,4 +1,4 @@
-/* ------------------------------
+'''/* ------------------------------
     CUSTOM FONT
 ------------------------------ */
 @font-face {
@@ -9,6 +9,37 @@
 }
 body {
   font-family: 'myfont', sans-serif;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+html {
+  will-change: transform;
+  perspective: 1px;
+}
+
+#main {
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* ------------------------------
+    LOCOMOTIVE SCROLL FIXES
+------------------------------ */
+html.has-scroll-smooth {
+  overflow: hidden;
+}
+html.has-scroll-dragging {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.has-scroll-smooth body {
+  overflow: hidden;
+}
+.has-scroll-smooth [data-scroll-container] {
+  min-height: 100vh;
 }
 
 /* ------------------------------
@@ -29,6 +60,7 @@ body {
   transform-origin: left;
   transition: none;
   pointer-events: none;
+  will-change: transform;
 }
 
 /* ------------------------------
@@ -40,6 +72,9 @@ body {
 .app-preview-img:hover {
   transform: rotateX(0.4deg) rotateY(-0.4deg) scale3d(0.985, 0.985, 0.985);
   transition: transform 0.2s ease;
+}
+.app-preview-img {
+  will-change: transform;
 }
 body.light-mode .app-preview-img {
   box-shadow: 0 0 20px rgba(10, 10, 10, 0.94);
@@ -75,7 +110,7 @@ body.dark-mode .app-preview-img {
   left: 50%;
   transform: translate(-50%, -50%);
   color: #333960;
-  font-family: 'myfont', sans-serif;
+  font-family: sans-serif;
   z-index: 0;
   -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
   mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
@@ -91,6 +126,7 @@ body.dark-mode .app-preview-img {
   line-height: 3.4rem;
   letter-spacing: -1px;
   transform: translateY(130px);
+  will-change: transform;
 }
 .grid {
   min-height: 480px;
@@ -111,6 +147,7 @@ body.dark-mode .app-preview-img {
   transition: all 0.3s ease;
   background-color: inherit;
   color: inherit;
+  will-change: transform;
 }
 
 /* ==== GRIDBOX HOVER ==== */
@@ -211,10 +248,23 @@ body.dark-mode .app-preview-img {
   position: relative;
   height: 100px;
 }
+.marquee-row:nth-child(1) {
+  opacity: 1;
+}
+.marquee-row:nth-child(2) {
+  opacity: 0.75;
+}
+.marquee-row:nth-child(3) {
+  opacity: 0.5;
+}
+.marquee-row:nth-child(4) {
+  opacity: 0.25;
+}
 .marquee-track {
   display: flex;
   gap: 20px;
   animation: scrollLeft 25s linear infinite;
+  will-change: transform;
 }
 .marquee-track.reverse {
   animation: scrollRight 25s linear infinite;
@@ -240,12 +290,12 @@ body.dark-mode .app-preview-img {
   color: #000;
 }
 @keyframes scrollLeft {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
 }
 @keyframes scrollRight {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(0); }
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
 }
 @keyframes floatScroll {
   0%, 100% { transform: translateY(0); }
@@ -257,21 +307,23 @@ body.dark-mode .app-preview-img {
 ------------------------------ */
 .footer {
   position: relative;
-  background-color: #141f3784;
+  background-color: #0A101E;
   color: #dcdcdc;
   font-family: 'Poppins', sans-serif;
-  padding: 100px 8vw 60px;
+  padding: 120px 8vw 60px;
   overflow: hidden;
 }
 .footer-grid {
   position: absolute;
   top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100%; 
+  height: 120%; /* Taller to allow for parallax */
   background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 35px 35px;
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
   z-index: 0;
+  will-change: transform;
 }
 .footer-container {
   position: relative;
@@ -292,11 +344,13 @@ body.dark-mode .app-preview-img {
   font-weight: 800;
   color: #ffffff;
   margin-bottom: 20px;
+  letter-spacing: -1px;
 }
-.footer-description {
+.footer-left p {
   font-size: 1rem;
-  color: #b0b0b0;
-  line-height: 1.6;
+  color: #aab0c4;
+  line-height: 1.7;
+  font-weight: 300;
 }
 .footer-right {
   flex: 1;
@@ -308,7 +362,7 @@ body.dark-mode .app-preview-img {
 .footer-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 12px;
   justify-content: flex-end;
 }
 .footer-links a {
@@ -316,33 +370,53 @@ body.dark-mode .app-preview-img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #aaa;
-  font-size: 0.85rem;
-  transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  padding: 12px;
+  border-radius: 10px;
+  min-width: 70px;
 }
 .footer-links a:hover {
   color: #fff;
-  transform: translateY(-8px) scale(1.08);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-5px);
 }
 .footer-links img {
   width: 32px;
   height: 32px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  filter: grayscale(0%);
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
 }
 .freelance-contact {
   font-size: 0.95rem;
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: right;
-  color: #b5b5b5;
+  color: #aab0c4;
+  font-weight: 300;
+}
+.freelance-contact u {
+    text-decoration-color: #777;
+    transition: all 0.3s ease;
+}
+.freelance-contact a:hover u {
+    text-decoration-color: #fff;
 }
 .footer-bottom {
-  margin-top: 80px;
+  margin-top: 120px;
   text-align: center;
   position: relative;
   z-index: 2;
-  font-size: 0.85rem;
-  color: #888;
+  font-size: 0.9rem;
+  color: #6a7185;
+  font-weight: 400;
+}
+.footer-bottom strong {
+    font-weight: 600;
+    color: #aab0c4;
 }
 
 /* ------------------------------
@@ -424,6 +498,12 @@ body.dark-mode .highlight-badge {
   color: #fff !important;
 }
 
+body.light-mode .footer-grid {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+}
+
 /* === FOOTER LINK FIX === */
 body.light-mode footer a {
   color: #111 !important;
@@ -431,3 +511,4 @@ body.light-mode footer a {
 body.dark-mode footer a {
   color: #fff !important;
 }
+''
